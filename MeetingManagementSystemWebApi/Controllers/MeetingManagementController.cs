@@ -21,7 +21,7 @@ namespace MeetingManagementSystemWebApi.Controllers
             _context = context;
         }
 
-        // GET: api/MeetingManagement
+        // GET: api/MeetingManagement 
         [HttpGet]
         public IActionResult GetMeetingDetails()
         {
@@ -81,6 +81,21 @@ namespace MeetingManagementSystemWebApi.Controllers
             return Ok(new { status = 200, message = "", result = meetingEntity });
         }
 
+        // DELETE api/values/5
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.MeetingDetails.Remove(_context.MeetingDetails.Single(x => x.MeetingId == id));
+            _context.SaveChanges();
+
+            return Ok(new { status = 200, message = "", result = id });
+
+        }
         private bool MeetingEntityExists(int id)
         {
             return _context.MeetingDetails.Any(e => e.MeetingId == id);
